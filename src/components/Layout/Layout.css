@@ -1,0 +1,144 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.layout-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem 1rem 1rem;
+  text-align: center;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.logo-icon {
+  color: #333;
+  filter: drop-shadow(0 2px 4px rgba(51, 51, 51, 0.3));
+  transition: all 0.2s ease-in-out;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.github-link:hover {
+  background-color: rgba(51, 51, 51, 0.1);
+  transform: scale(1.05);
+}
+
+.github-link:hover .logo-icon {
+  color: #000;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.app-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #e11d48, #be185d);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-subtitle {
+  font-size: 1.125rem;
+  color: #35383f;
+  margin: 0;
+  font-weight: 500;
+}
+
+.layout-main {
+  flex: 1;
+  padding: 2rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.layout-footer {
+  background: rgba(49, 74, 78, 0.8);
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: auto;
+}
+
+.layout-footer p {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.footer-github-link {
+  color: #fff;
+  font-weight: 600;
+  transition: color 0.2s ease-in-out;
+}
+
+.footer-github-link:hover {
+  color: #667eea;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 1.5rem 1rem 1rem 1rem;
+  }
+
+  .app-title {
+    font-size: 2rem;
+  }
+
+  .app-subtitle {
+    font-size: 1rem;
+  }
+
+  .logo-section {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .layout-main {
+    padding: 1rem 0;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .layout {
+    background: linear-gradient(135deg, #416c60c1 0%, #0f2a26 100%);
+  }
+
+  .layout-header {
+    background: rgba(31, 60, 66, 0.73);
+    border-bottom-color: rgba(255, 255, 255, 0.323);
+  }
+
+  .app-subtitle {
+    color: #d1d5db;
+  }
+}
