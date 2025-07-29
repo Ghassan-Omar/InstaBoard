@@ -1,38 +1,31 @@
-import React from 'react'
-import UserList from './components/UserList/UserList'
-import { Github } from 'lucide-react'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout/Layout';
+import Home from './components/pages/Home/Home';
+import About from './components/pages/About/About';
+import UserList from './components/UserList/UserList';
+import TeamDetails from './components/TeamDetails/TeamDetails';
+import LikedUsers from './components/LikedUsers/LikedUsers';
+import NotFound from './components/pages/NotFound/NotFound';
+import './App.css';
 
 function App() {
   return (
-    <div className="app">
-      <header className="app-header">
-        <div className="header-container">
-          <div className="logo-section">
-            <a 
-              href="https://github.com/Ghassan-Omar" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="github-link"
-              aria-label="Visit Ghassan Omar's GitHub profile"
-            >
-              <Github size={32} className="logo-icon" />
-            </a>
-            <h1 className="app-title">InstaBoard</h1>
-          </div>
-          <p className="app-subtitle">Discover amazing people from around the world</p>
-        </div>
-      </header>
-      
-      <main className="app-main">
-        <UserList />
-      </main>
-      
-      <footer className="app-footer">
-        <p>&copy; 2025 InstaBoard. Built with React & Axios by <a href="https://github.com/Ghassan-Omar" target="_blank" rel="noopener noreferrer" className="footer-github-link">Ghassan Omar</a>.</p>
-      </footer>
-    </div>
-  )
+    <Router>
+      <div className="app">
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="team" element={<UserList />} />
+            <Route path="team/:id" element={<TeamDetails />} />
+            <Route path="liked-users" element={<LikedUsers />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;

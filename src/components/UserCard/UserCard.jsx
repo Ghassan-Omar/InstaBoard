@@ -1,68 +1,92 @@
 import React, { useState } from 'react';
-import { Heart, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Heart, User } from 'lucide-react';
 import './UserCard.css';
 
-const UserCard = ({ user }) => {
-  const [likes, setLikes] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
+const UserCard = ({ user, onLike, onUserClick, isLiked, likeCount }) => {
   const [showEmail, setShowEmail] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
-  const handleLike = () => {
-    if (isLiked) {
-      setLikes(likes - 1);
-      setIsLiked(false);
-    } else {
-      setLikes(likes + 1);
-      setIsLiked(true);
-    }
-  };
-
-  const toggleEmailVisibility = () => {
+  const toggleEmail = (e) => {
+    e.stopPropagation(); // Prevent triggering onUserClick
     setShowEmail(!showEmail);
   };
 
+  const handleLike = (e) => {
+    e.stopPropagation(); // Prevent triggering onUserClick
+    onLike();
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  const formatName = (first, last) => {
+    return `${first.charAt(0).toUpperCase() + first.slice(1)} ${last.charAt(0).toUpperCase() + last.slice(1)}`;
+  };
+
+  const getTitle = (gender) => {
+    return gender === 'male' ? 'Mr' : gender === 'female' ? 'Miss' : 'Mx';
+  };
+
   return (
-    <div className="user-card">
+    <div className="user-card" onClick={onUserClick}>
       <div className="user-card-header">
-        <img 
-          src={user.picture?.large || user.picture?.medium || user.picture?.thumbnail || '/api/placeholder/150/150'} 
-          alt={`${user.name?.first} ${user.name?.last}`}
-          className="user-avatar"
-        />
+        <div className="user-avatar">
+          {imageError ? (
+            <div className="avatar-fallback">
+              <User size={40} />
+            </div>
+          ) : (
+            <img
+              src={user.picture.large}
+              alt={`${user.name.first} ${user.name.last}`}
+              className="avatar-image"
+              onError={handleImageError}
+            />
+          )}
+        </div>
         <div className="user-info">
           <h3 className="user-name">
-            {user.name?.title} {user.name?.first} {user.name?.last}
+            {getTitle(user.gender)} {formatName(user.name.first, user.name.last)}
           </h3>
-          <div className="email-section">
+          <div className="user-email">
             {showEmail ? (
-              <p className="user-email">{user.email}</p>
+              <span className="email-visible">{user.email}</span>
             ) : (
-              <p className="user-email-hidden">Email hidden</p>
+              <span className="email-hidden">Email hidden</span>
             )}
-            <button 
-              onClick={toggleEmailVisibility}
-              className="email-toggle-btn"
-              aria-label={showEmail ? "Hide email" : "Show email"}
-            >
-              {showEmail ? <EyeOff size={16} /> : <Eye size={16} />}
-            </button>
           </div>
         </div>
-      </div>
-      
-      <div className="user-card-actions">
-        <button 
-          onClick={handleLike}
-          className={`like-btn ${isLiked ? 'liked' : ''}`}
-          aria-label={isLiked ? "Unlike" : "Like"}
+        <button
+          onClick={toggleEmail}
+          className="email-toggle"
+          aria-label={showEmail ? "Hide email" : "Show email"}
         >
-          <Heart size={20} fill={isLiked ? '#e11d48' : 'none'} />
-          <span className="like-count">{likes}</span>
+          {showEmail ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
+      </div>
+
+      <div className="user-card-footer">
+        <button
+          onClick={handleLike}
+          className={`like-button ${isLiked ? 'liked' : ''}`}
+          aria-label={isLiked ? "Unlike user" : "Like user"}
+        >
+          <Heart size={16} className={isLiked ? 'filled' : ''} />
+          <span className="like-count">{likeCount}</span>
+        </button>
+        <div className="user-location">
+          <span className="location-text">
+            {user.location.city}, {user.location.country}
+          </span>
+        </div>
+      </div>
+
+      <div className="card-overlay">
+        <span className="click-hint">Click to view details</span>
       </div>
     </div>
   );
 };
 
 export default UserCard;
-
